@@ -1,22 +1,70 @@
 #Add debug compile
 cmake_minimum_required(VERSION 3.16)
-project(Containers_tests DESCRIPTION "small show case for Threading Building Block" LANGUAGES CXX)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# Add project_options v0.24.1
+# https://github.com/aminya/project_options
+# Change the version in the following URL to update the package (watch the releases of the repository for future updates)
+include(FetchContent)
+FetchContent_Declare(_project_options URL https://github.com/aminya/project_options/archive/refs/tags/v0.24.1.zip)
+FetchContent_MakeAvailable(_project_options)
+include(${_project_options_SOURCE_DIR}/Index.cmake)
+
+# install vcpkg dependencies: - should be called before defining project()
+#run_vcpkg()
+
+
+project(training_containers DESCRIPTION "short training on containers" LANGUAGES CXX)
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Initialize project_options variable related to this project
+# This overwrites `project_options` and sets `project_warnings`
+# uncomment to enable the options. Some of them accept one or more inputs:
+project_options(
+        ENABLE_CACHE
+        ${ENABLE_CPPCHECK}
+        ${ENABLE_CLANG_TIDY}
+        ENABLE_VS_ANALYSIS
+        # ENABLE_CONAN
+        # ENABLE_INTERPROCEDURAL_OPTIMIZATION
+        # ENABLE_NATIVE_OPTIMIZATION
+        ${ENABLE_DOXYGEN}
+        ${ENABLE_COVERAGE}
+        ${ENABLE_SANITIZER_ADDRESS}
+        ${ENABLE_SANITIZER_UNDEFINED_BEHAVIOR}
+        # ENABLE_SANITIZER_THREAD
+        # ENABLE_SANITIZER_MEMORY
+        # ENABLE_PCH
+        # PCH_HEADERS
+        # WARNINGS_AS_ERRORS
+        # ENABLE_INCLUDE_WHAT_YOU_USE
+        # ENABLE_USER_LINKER
+        # ENABLE_BUILD_WITH_TIME_TRACE
+        # ENABLE_UNITY
+        # CONAN_PROFILE ${profile_path}  # passes a profile to conan: see https://docs.conan.io/en/latest/reference/profiles.html
+)
 
-set(SRC_FILES test_containers_main.cc containers_test.cc)
+set(SRC_FILES test_containers_main.cc
+              containers_test.cc)
 
 #BOOST setup
-set(BOOST_ROOT /prj/qct/sve/dragonr/tools/boost_1_73_0/)
-set(Boost_USE_STATIC_LIBS  ON)
-find_package(Boost 1.73.0 REQUIRED COMPONENTS unit_test_framework container)
+#find_package(TBB REQUIRED)
+find_package(Boost REQUIRED COMPONENTS unit_test_framework container)
 
+#set(THREADS_PREFER_PTHREAD_FLAG ON)
+#find_package(Threads REQUIRED)
 
-include_directories(${TBB_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
 
 #Create unit test exe for the connectivity_extractor
 add_executable(${PROJECT_NAME} ${SRC_FILES})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}  )
+target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS} ${TBB_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME} PRIVATE project_options project_warnings
+        Boost::unit_test_framework Boost::container
+        )
 
+enable_testing()
+add_test(NAME containers COMMAND bin/training_containers --log_level=all )

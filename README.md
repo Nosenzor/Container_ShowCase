@@ -1,46 +1,40 @@
-# TBB for DragonR 
-Threading Building Blocks
+![example workflow](https://github.com/Nosenzor/Container_ShowCase/actions/workflows/lukka_ci.yml/badge.svg)
 
-## Help :
-* Contact me : 
-* [TBB Help (intel)](https://www.threadingbuildingblocks.org/docs/help/index.htm)
+# Training C++ Containers
 
-## Keep in mind :
-*Always measure and profile to understand what is your performance problem*
+## Intro :
+* This repo aims to show some famous containers and to help beginners to pick the best container for their problem
+* **Always measure and profile to understand what is your performance problem**
 
 ## Building examples
 
-Tests are built through the cmake command through CMakeList.txt hierarchy of files and subdirectory so tests are built Every time you call the master CMakeList.txt. [cf How to build](../../../../README.md)
+Tests are built through the cmake command through CMakeList.txt
 
-The building script has been modified to build the tbb test cases.
-cmake --build ./build --config Release -j 8
 
 ## Running tests
-
-from the root/master directory you can launch :
-### Launch all tests
-First Move to the exe directory
-cd build/Containers/
-
-List all Tests
+* CTest way :
 ```
-./Containers_tests  --list_content
+ctest
 ```
 
-Run All Tests
+* Boost Test / List all Tests
+```
+./training_containers  --list_content
 ```
 
-./Containers_tests --log_level=all
+* Boost Test / Run All Tests
 ```
-Run Some tests 
+./training_containers --log_level=all
 ```
-./Containers_tests --run_test=array --log_level=all 
-./Containers_tests --run_test=vec --log_level=all 
-./Containers_tests --run_test=deque --log_level=all 
-./Containers_tests --run_test=list --log_level=all 
-./Containers_tests --run_test=set --log_level=all 
-./Containers_tests --run_test=uset --log_level=all
-./Containers_tests --run_test=stable_vector --log_level=all
-./Containers_tests --run_test=static_vector --log_level=all
-./Containers_tests --run_test=small_vector --log_level=all
+* Boost Test / Run Some tests 
+```
+./training_containers --run_test=array --log_level=all 
+./training_containers --run_test=vec --log_level=all 
+./training_containers --run_test=deque --log_level=all 
+./training_containers --run_test=list --log_level=all 
+./training_containers --run_test=set --log_level=all 
+./training_containers --run_test=uset --log_level=all
+./training_containers --run_test=stable_vector --log_level=all
+./training_containers --run_test=static_vector --log_level=all
+./training_containers --run_test=small_vector --log_level=all
 ```
