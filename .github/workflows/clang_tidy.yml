@@ -1,11 +1,7 @@
 # Run clang-tidy
 name: Clang-tidy
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, workflow_dispatch]
 
 jobs:
   checkout-and-check-formatting:
