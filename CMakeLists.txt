@@ -67,4 +67,4 @@ target_link_libraries(${PROJECT_NAME} PRIVATE project_options project_warnings
         )
 
 enable_testing()
-add_test(NAME containers COMMAND bin/training_containers --log_level=all )
+add_test(NAME containers COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/training_containers --log_level=all )

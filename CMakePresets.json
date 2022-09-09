@@ -85,7 +85,8 @@
     },
     {
       "name": "ninja-multi-vcpkg",
-      "configurePreset": "ninja-multi-vcpkg"
+      "output": {"verbosity": "extra"},
+      "execution": {"noTestsAction": "error", "stopOnFailure": true}
     },
     {
       "name": "default-vs",
