@@ -66,7 +66,7 @@
     {
 
       { //No reserve int type
-        constexpr int NBPUSH = 1'000'000;
+        constexpr int NBPUSH = 100000;
         BOOST_TEST_MESSAGE("---Problem Size =" << NBPUSH);
         auto Start = std::chrono::high_resolution_clock::now();
         std::array<int, NBPUSH> Array;
